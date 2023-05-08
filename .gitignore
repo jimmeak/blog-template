@@ -1,3 +1,5 @@
+###> phpstorm/internal-data ###
+/.idea
 
 ###> symfony/framework-bundle ###
 /.env.local

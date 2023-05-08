@@ -1,21 +1,52 @@
-version: '3'
+version: '3.9'
+
+networks:
+    youtube-blog:
+        name: blog
+        driver: bridge
 
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-15}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
-    volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+    
+    web:
+        container_name: ytb-web
+        networks:
+            - youtube-blog
+        build:
+            context: .docker/apache2
+            dockerfile: Dockerfile
+        depends_on:
+            - database
+        ports:
+            - "127.0.0.2:80:80"
+            - "127.0.0.2:443:443"
+        volumes:
+            - "./:/var/www/html"
+            - ".docker/apache2/000-default.conf:/etc/apache2/sites-enabled/000-default.conf"
+            - ".docker/apache2/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"
+    
+    database:
+        container_name: ytb-database
+        networks:
+            - youtube-blog
+        image: postgres:${POSTGRES_VERSION:-15}-alpine
+        ports:
+            - "127.0.0.2:5432:5432"
+        environment:
+            POSTGRES_DB: ${POSTGRES_DB:-app}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+            POSTGRES_USER: ${POSTGRES_USER:-app}
+        volumes:
+            - database_data:/var/lib/postgresql/data:rw
 
+    adminer:
+        container_name: ytb-adminer
+        networks:
+            - youtube-blog
+        image: adminer
+        depends_on:
+            - database
+        ports:
+            - "127.0.0.3:80:8080"
+    
 volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
+    database_data:
