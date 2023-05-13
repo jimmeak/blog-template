@@ -1,10 +1,10 @@
 <?php
 
-namespace Jimmeak\DoctrineBundle\Trait;
+namespace Jimmeak\DoctrineBundle\Trait\Unique;
 
 use Doctrine\ORM\Mapping as ORM;
 
-trait UniqueEmail
+trait Email
 {
     #[ORM\Column(length: 190, unique: true)]
     private string $email;

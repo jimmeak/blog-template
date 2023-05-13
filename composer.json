@@ -43,6 +43,7 @@
         "symfony/uid": "6.3.*",
         "symfony/validator": "6.3.*",
         "symfony/web-link": "6.3.*",
+        "symfony/webpack-encore-bundle": "*",
         "symfony/yaml": "6.3.*",
         "symfonycorp/platformsh-meta": "^1.0",
         "twig/extra-bundle": "^2.12|^3.0",

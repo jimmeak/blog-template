@@ -1,10 +1,10 @@
 <?php
 
-namespace Jimmeak\DoctrineBundle\Trait;
+namespace Jimmeak\DoctrineBundle\Trait\Nullable;
 
 use Doctrine\ORM\Mapping as ORM;
 
-trait NullEmail
+trait Email
 {
     #[ORM\Column(length: 255, nullable: true)]
     private string|null $email;

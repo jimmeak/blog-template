@@ -23,6 +23,7 @@ services:
             - "./:/var/www/html"
             - ".docker/apache2/000-default.conf:/etc/apache2/sites-enabled/000-default.conf"
             - ".docker/apache2/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"
+            - ".docker/apache2/php/php.ini:/usr/local/etc/php/conf.d/docker-php.ini"
     
     database:
         container_name: ytb-database
@@ -31,13 +32,13 @@ services:
         image: postgres:${POSTGRES_VERSION:-15}-alpine
         ports:
             - "${WEB_IP_ADDRESS:-127.0.10.1}:5432:5432"
+        volumes:
+            - database_data:/var/lib/postgresql/data:rw
         environment:
             POSTGRES_DB: ${POSTGRES_DB:-app}
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
             POSTGRES_USER: ${POSTGRES_USER:-app}
-        volumes:
-            - database_data:/var/lib/postgresql/data:rw
-
+    
     adminer:
         container_name: ytb-adminer
         networks:
@@ -47,6 +48,19 @@ services:
             - database
         ports:
             - "${DBA_IP_ADDRESS:-127.0.10.2}:80:8080"
-    
+
+
+    node:
+        container_name: ytb-node
+        networks:
+            - youtube-blog
+        image: node:20
+        working_dir: /var/www/html
+        volumes:
+            - "./:/var/www/html"
+        command: |
+            bash -c "echo 'Node JS Started' && node --version && tail -F /dev/null"
+        
+        
 volumes:
     database_data:

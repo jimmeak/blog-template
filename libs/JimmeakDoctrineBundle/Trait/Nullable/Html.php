@@ -1,11 +1,11 @@
 <?php
 
-namespace Jimmeak\DoctrineBundle\Trait;
+namespace Jimmeak\DoctrineBundle\Trait\Nullable;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-trait NullHtml
+trait Html
 {
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private string|null $html;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Blog\Repository;
+namespace Jimmeak\DoctrineBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 

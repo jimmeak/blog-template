@@ -1,13 +1,13 @@
 <?php
 
-namespace Jimmeak\DoctrineBundle\Trait;
+namespace Jimmeak\DoctrineBundle\Trait\Sluggable;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Slug;
 
-trait SlugTitle
+trait Title
 {
-    use Title;
+    use \Jimmeak\DoctrineBundle\Trait\Title;
 
     #[ORM\Column(length: 190, unique: true)]
     #[Slug(fields: ['title'])]

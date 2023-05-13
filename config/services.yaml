@@ -11,6 +11,16 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+    
+    TableNameListener:
+        class: Jimmeak\DoctrineBundle\EventListener\TableNameListener
+        arguments:
+            $entityNamespace: "Blog"
+        tags:
+            - { name: doctrine.event_listener, event: loadClassMetadata, method: loadClassMetadata }
+
+
+
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     Blog\:
